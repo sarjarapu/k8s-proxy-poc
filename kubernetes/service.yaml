@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlas-proxy-my-replica-set-0-svc-external
+  namespace: mongodb
+  labels:
+    app: my-replica-set
+spec:
+  selector:
+    rs-member: my-replica-set-0
+  type: NodePort
+  ports:
+  - name: mdb-proxy-rs0-service
+    protocol: TCP
+    nodePort: 30010
+    port: 30010
+    targetPort: 28000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlas-proxy-my-replica-set-1-svc-external
+  namespace: mongodb
+  labels:
+    app: my-replica-set
+spec:
+  selector:
+    rs-member: my-replica-set-1
+  type: NodePort
+  ports:
+  - name: mdb-proxy-rs1-service
+    protocol: TCP
+    nodePort: 30011
+    port: 30011
+    targetPort: 28000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlas-proxy-my-replica-set-2-svc-external
+  namespace: mongodb
+  labels:
+    app: my-replica-set
+spec:
+  selector:
+    rs-member: my-replica-set-2
+  type: NodePort
+  ports:
+  - name: mdb-proxy-rs2-service
+    protocol: TCP
+    nodePort: 30012
+    port: 30012
+    targetPort: 28000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlas-proxy-my-replica-set-svc
+  namespace: mongodb
+  labels:
+    app: my-replica-set
+spec:
+  clusterIP: None
+  ports:
+  - port: 28000
+    protocol: TCP
+    targetPort: 28000
+  selector:
+    app: my-replica-set
+    atlas-proxy: my-replica-set
+  sessionAffinity: None
+  type: ClusterIP

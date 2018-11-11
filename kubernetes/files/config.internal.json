@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "accounts" : [
+    { "dbPrefix" : "proxy-",
+      "groupId" : "5852f71d249b903468929ef9",
+      "version" : 1,
+      "rsName" : "my-replica-set-proxy",
+      "hosts" : [
+        { "mtm" : "my-replica-set-0.my-replica-set-svc.mongodb.svc.cluster.local:27017", "sni" : "ip-172-31-6-207.us-west-2.compute.internal:30010" },
+        { "mtm" : "my-replica-set-1.my-replica-set-svc.mongodb.svc.cluster.local:27017", "sni" : "ip-172-31-30-153.us-west-2.compute.internal:30011" },
+        { "mtm" : "my-replica-set-2.my-replica-set-svc.mongodb.svc.cluster.local:27017", "sni" : "ip-172-31-36-240.us-west-2.compute.internal:30012" }
+      ],
+      "ipWhiteList" : [ "0.0.0.0/0"],
+      "limits" : {
+        "numConnections" : 999999,
+        "diskSizeMB" : 9999999,
+        "numCollections" : 9999,
+        "numDatabases" : 99,
+        "operationsPerSecond" : 999999,
+        "gbPerWeekIn": 9999999,
+        "gbPerWeekOut": 9999999,
+        "throttledKBPerSecond": 1
+      },
+      "users" : {
+        "user" : { "iterationCount" : 10000,
+          "salt" : "j8Wxrb9+s4SLZFtTkTL2Zg==",
+          "storageKey" : "2jbMsw8Rl2USdr4YnYFJNIqTeJw=",
+          "serverKey" : "2dv1SqXd2QAMAPAUgJD0Vs0xRnI=",
+          "roles" : [ { "role" : "atlasAdmin", "db" : "admin"}, { "role" : "testRole", "db" : "test"}, { "role" : "testRole2", "db" : "admin" }]
+        },
+        "user2" : { "mongoHash": "3f7397511710bfb55e2d9a903ef6d29d",
+          "roles" : [ { "role" : "atlasAdmin", "db" : "admin" } ]
+        },
+        "user3" : { "iterationCount" : 10000,
+          "salt" : "/uu9GY/19eUfrDmwBbJ0Yg==",
+          "storageKey" : "FJgwPRH5ruAiH137eStW1CRWcQE=",
+          "serverKey" : "UU56vCgmwdq9X2kU6Lgjxz9bxEo=",
+          "roles" : [ { "role" : "testRole", "db" : "test"} ]
+        },
+        "sam" : { "iterationCount" : 10000,
+          "salt" : "Ab7J4FgttaHKzXI8zC7SHQ==",
+          "storageKey" : "uJACDqy/zVNY5UahGSVT1Rzbt0o=",
+          "serverKey" : "b9S8aFFQNPQ1f3d7B195KVbSXP4=",
+          "roles" : [ { "role" : "readWrite", "db" : "test", "collection": ""}]
+        },
+        "stupidSam" : { "iterationCount" : 10000,
+          "salt" : "LZl+cx9jsINTFE8Qq/2oMw==",
+          "storageKey" : "J3dIn4s7QX4xFDlakzf/BCnFsn8=",
+          "serverKey" : "ghLKGNTA0oZjQ6stDfWwqYHBEng=",
+          "roles" : [ { "role" : "readWrite", "db" : "test", "collection": "main"}]
+        },
+        "tim": { "iterationCount" : 10000,
+           "salt" : "fKD8wCkvSn6qrO74OiOAHA==",
+           "storageKey" : "+x5dTGcQ2bn0rU7reRaKC3ZiCCo=",
+           "serverKey" : "1bSf5gep52AwjgCfrApAumFWuJE=",
+           "roles": [ { "role": "readWriteTimTest", "db": "timTest", "collection": ""},
+                      { "role": "dbAdmin", "db": "timTest3", "collection": "" }]
+        }
+      },
+      "roles" : [
+          { "role": "atlasAdmin",
+            "db": "admin",
+            "privileges": [{"resource": {"db":"admin", "collection": ""}, "actions": ["viewRole"]}],
+            "roles" : [ { "role" : "readWriteAnyDatabase", "db" : "admin" },
+                        { "role" : "enableSharding", "db" : "admin" },
+                        { "role" : "dbAdminAnyDatabase", "db" : "admin" },
+                        { "role" : "backup", "db" : "admin" },
+                        { "role" : "clusterMonitor", "db" : "admin" }],
+            "appliesToAllDBs": true
+            },
+            {"role": "testRole2",
+            "db": "admin",
+            "privileges" : [{"resource": {"db": "admin", "collection": ""}, "actions": ["viewRole"]}],
+            "roles" : [ { "role" : "readWriteAnyDatabase", "db" : "admin" },
+                        { "role" : "enableSharding", "db" : "admin" },
+                        { "role" : "dbAdminAnyDatabase", "db" : "admin" },
+                        { "role" : "backup", "db" : "admin" },
+                        { "role" : "clusterMonitor", "db" : "admin" }]
+            },
+            {"role": "testRole",
+            "db": "test",
+            "privileges" : [{"resource": {"db": "test", "collection": ""}, "actions": ["viewRole"]}],
+            "roles" : [ { "role" : "readWrite", "db" : "test" }, {"role": "dbAdmin", "db": "test"}]
+            },
+            {"role": "testRole",
+            "db": "test2",
+            "privileges" : [{"resource": {"db": "test2", "collection": ""}, "actions": ["viewRole"]}],
+            "roles" : [ { "role" : "read", "db" : "test2" }, {"role": "dbAdmin", "db": "test2"}]
+            },
+            {"role": "readWriteTimTest",
+            "db": "timTest",
+            "privileges": [],
+            "roles": [ { "role": "readWrite", "db": "timTest" }]
+            }
+          ]
+    }
+  ]
+}

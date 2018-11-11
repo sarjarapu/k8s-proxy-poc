@@ -1,0 +1,43 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-project
+  namespace: mongodb
+data:
+  projectName: "mdb-proxy"
+  orgId: 5be5f1093c5c67308c040c16
+  baseUrl: http://ec2-54-70-220-252.us-west-2.compute.amazonaws.com:8080
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "my-credentials"
+  namespace: "mongodb"
+type: Opaque
+data:
+  user: "c2h5YW0uYXJqYXJhcHVAZ21haWwuY29tCg=="
+  publicApiKey: "YTY4NzY5N2YtYmM0OC00MzAxLWJlNWQtNjBjN2JjZDUyMGQ0Cg=="
+
+---
+apiVersion: mongodb.com/v1
+kind: MongoDbReplicaSet
+metadata:
+  name: my-replica-set
+  namespace: mongodb
+spec:
+  members: 3
+  version: 4.0.4
+
+  # Before you create this object, you'll need to create a project ConfigMap and a
+  # credentials Secret. For instructions on how to do this, please refer to our
+  # documentation, here:
+  # https://docs.opsmanager.mongodb.com/current/tutorial/install-k8s-operator
+  project: my-project
+  credentials: my-credentials
+
+  # This flag allows the creation of pods without persistent volumes. This is for
+  # testing only, and must not be used in production. 'false' will disable
+  # Persistent Volume Claims. The default is 'true'
+  persistent: false

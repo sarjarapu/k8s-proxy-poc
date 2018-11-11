@@ -1,0 +1,95 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: atlas-proxy-my-replica-set-0
+  namespace: mongodb
+  labels:
+    app: my-replica-set
+    atlas-proxy: my-replica-set
+    rs-member: my-replica-set-0
+  name: atlas-proxy-my-replica-set-0
+spec:
+  containers:
+  - name: atlas-proxy-my-replica-set-0
+    image: sarjarapu/mdb-k8s-proxy:0.0.5
+    tty: true
+    stdin: true
+    env:
+    - name: MONGODB_URI
+      value: "mongodb://my-replica-set-0.my-replica-set-svc.mongodb.svc.cluster.local:27017/"
+    volumeMounts:
+      - name: "atlas-proxy-my-replica-set-conf"
+        mountPath: "/opt/atlas-proxy/config.json"
+        subPath: "config.json"
+  volumes:
+  - name: atlas-proxy-my-replica-set-conf
+    configMap:
+      name: "atlas-proxy-my-replica-set"
+      items:
+      - key: config.json
+        path: config.json
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: atlas-proxy-my-replica-set-1
+  namespace: mongodb
+  labels:
+    app: my-replica-set
+    atlas-proxy: my-replica-set
+    rs-member: my-replica-set-1
+  name: atlas-proxy-my-replica-set-1
+spec:
+  containers:
+  - name: atlas-proxy-my-replica-set-1
+    image: sarjarapu/mdb-k8s-proxy:0.0.5
+    tty: true
+    stdin: true
+    env:
+    - name: MONGODB_URI
+      value: "mongodb://my-replica-set-1.my-replica-set-svc.mongodb.svc.cluster.local:27017/"
+    volumeMounts:
+      - name: "atlas-proxy-my-replica-set-conf"
+        mountPath: "/opt/atlas-proxy/config.json"
+        subPath: "config.json"
+  volumes:
+  - name: atlas-proxy-my-replica-set-conf
+    configMap:
+      name: "atlas-proxy-my-replica-set"
+      items:
+      - key: config.json
+        path: config.json
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: atlas-proxy-my-replica-set-2
+  namespace: mongodb
+  labels:
+    app: my-replica-set
+    atlas-proxy: my-replica-set
+    rs-member: my-replica-set-2
+  name: atlas-proxy-my-replica-set-2
+spec:
+  containers:
+  - name: atlas-proxy-my-replica-set-2
+    image: sarjarapu/mdb-k8s-proxy:0.0.5
+    tty: true
+    stdin: true
+    env:
+    - name: MONGODB_URI
+      value: "mongodb://my-replica-set-2.my-replica-set-svc.mongodb.svc.cluster.local:27017/"
+    volumeMounts:
+      - name: "atlas-proxy-my-replica-set-conf"
+        mountPath: "/opt/atlas-proxy/config.json"
+        subPath: "config.json"
+  volumes:
+  - name: atlas-proxy-my-replica-set-conf
+    configMap:
+      name: "atlas-proxy-my-replica-set"
+      items:
+      - key: config.json
+        path: config.json
