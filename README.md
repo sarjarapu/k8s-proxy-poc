@@ -8,10 +8,6 @@ AFAIK the [atlasproxy](https://github.com/10gen/atlasproxy) is the only tool tha
 
 Here is a quick video showing you the demo of connectivity to MongoDB replica set via Atlas-Proxy.
 
-<video width="600" height="400" controls>
-  <source src="files/Demo.of.Kubernetes.External.Connectivity.Via.Atlas-Proxy.mp4" type="video/mp4">
-</video>
-
 If you are getting started, I strong recommend using the `my-replica-set` as the replica set name as this poc is not tweaked 100% to fit custom names. With that said let's try to understand the current setup and configuration needed for this proof of concept.
 
 ## Existing setup - A MongoDB replica set in Kubernetes
@@ -107,6 +103,8 @@ for i in {1..10}; do /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-4.0.4/
 mongo "mongodb://ec2-18-236-242-86.us-west-2.compute.amazonaws.com:30990,ec2-54-244-201-226.us-west-2.compute.amazonaws.com:30990,ec2-34-222-162-168.us-west-2.compute.amazonaws.com:30990/?replicaSet=my-replica-set-proxy"
 # 2018-11-10T08:31:27.562-0600 I NETWORK  [js] Successfully connected to ec2-18-236-242-86.us-west-2.compute.amazonaws.com:30990 (1 connections now open to ec2-18-236-242-86.us-west-2.compute.amazonaws.com:30990 with a 5 second timeout)
 # 2018-11-10T08:31:27.625-0600 I NETWORK  [js] changing hosts to my-replica-set/my-replica-set-0.my-replica-set-svc.mongodb.svc.cluster.local:27017,my-replica-set-1.my-replica-set-svc.mongodb.svc.cluster.local:27017,my-replica-set-2.my-replica-set-svc.mongodb.svc.cluster.local:27017 from my-replica-set/ec2-18-236-242-86.us-west-2.compute.amazonaws.com:30990,ec2-34-222-162-168.us-west-2.compute.amazonaws.com:30990,ec2-54-244-201-226.us-west-2.compute.amazonaws.com:30990
+# 2018-11-10T08:31:27.625-0600 W NETWORK  [js] Unable to reach primary for set my-replica-set-proxy
+# 2018-11-10T08:31:27.625-0600 I NETWORK  [js] Cannot reach any nodes for set my-replica-set-proxy. Please check network connectivity and the status of the set. This has happened for 2 checks in a row.
 ```
 
 ## Create & configure the Atlas-Proxy pods
@@ -126,6 +124,9 @@ do
   SNI="${EXTERNAL_DNS}:28000"
   echo "  { \"mtm\" : \"${MTM}\", \"sni\" : \"${SNI}\" }, ";
 done
+# { "mtm" : "my-replica-set-0.my-replica-set-svc.mongodb.svc.cluster.local:27017", "sni" : ""ec2-18-236-242-86.us-west-2.compute.amazonaws.com":28000" },
+# { "mtm" : "my-replica-set-1.my-replica-set-svc.mongodb.svc.cluster.local:27017", "sni" : ""ec2-54-244-201-226.us-west-2.compute.amazonaws.com":28000" },
+# { "mtm" : "my-replica-set-2.my-replica-set-svc.mongodb.svc.cluster.local:27017", "sni" : ""ec2-34-222-162-168.us-west-2.compute.amazonaws.com":28000" },
 ```
 
 ### Create the atlas-proxy pods
