@@ -8,6 +8,8 @@ AFAIK the [atlasproxy](https://github.com/10gen/atlasproxy) is the only tool tha
 
 Here is a quick video showing you the demo of connectivity to MongoDB replica set via Atlas-Proxy.
 
+[![Demo of Kubernetes External Connectivity via Atlas Proxy](https://img.youtube.com/vi/Nzrhv5zhKuM/maxresdefault.jpg)](https://youtu.be/Nzrhv5zhKuM)
+
 If you are getting started, I strong recommend using the `my-replica-set` as the replica set name as this poc is not tweaked 100% to fit custom names. With that said let's try to understand the current setup and configuration needed for this proof of concept.
 
 ## Existing setup - A MongoDB replica set in Kubernetes
